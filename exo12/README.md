@@ -1,5 +1,14 @@
-# Exo 12 — API de gestion des commandes
+# Exo 12 — API réactive de gestion des commandes
 
+API réactive avec Spring WebFlux et R2DBC (base H2 en mémoire).
+
+## Structure du projet
+
+- `Order.java` — Entité commande (id, customerName, totalAmount, status, createdAt)
+- `OrderRepository.java` — Repository réactif (ReactiveCrudRepository)
+- `OrderService.java` — Logique métier
+- `OrderController.java` — Contrôleur REST
+- `schema.sql` — Script de création de la table
 
 ## Lancer l'application
 
@@ -9,85 +18,101 @@
 
 ## Tester avec Postman
 
-### Créer un utilisateur
+### 1. Créer une commande
 
 ```
-POST http://localhost:8080/api/users
+POST http://localhost:8080/api/orders
 Content-Type: application/json
 
 {
-    "name": "Alice Dupont",
-    "email": "alice@example.com",
-    "active": true
+    "customerName": "Alice Dupont",
+    "totalAmount": 99.99
 }
 ```
 
-### Créer un second utilisateur
+### 2. Créer une seconde commande
 
 ```
-POST http://localhost:8080/api/users
+POST http://localhost:8080/api/orders
 Content-Type: application/json
 
 {
-    "name": "Bob Martin",
-    "email": "bob@example.com",
-    "active": false
+    "customerName": "Bob Martin",
+    "totalAmount": 149.50
 }
 ```
 
-### Récupérer tous les utilisateurs
+### 3. Récupérer toutes les commandes
 
 ```
-GET http://localhost:8080/api/users
+GET http://localhost:8080/api/orders
 ```
 
-### Récupérer un utilisateur par ID
+### 4. Récupérer une commande par ID
 
 ```
-GET http://localhost:8080/api/users/1
+GET http://localhost:8080/api/orders/1
 ```
 
-### Récupérer un utilisateur inexistant (doit renvoyer 404)
+### 5. Récupérer une commande inexistante (404)
 
 ```
-GET http://localhost:8080/api/users/999
+GET http://localhost:8080/api/orders/999
 ```
 
-### Modifier un utilisateur
+### 6. Mettre à jour le statut d'une commande
 
 ```
-PUT http://localhost:8080/api/users/1
+PUT http://localhost:8080/api/orders/1
 Content-Type: application/json
 
 {
-    "name": "Alice Durand",
-    "email": "alice.durand@example.com",
-    "active": false
+    "status": "SHIPPED"
 }
 ```
 
-### Modifier un utilisateur inexistant (doit renvoyer 404)
+### 7. Mettre à jour un statut vers DELIVERED
 
 ```
-PUT http://localhost:8080/api/users/999
+PUT http://localhost:8080/api/orders/1
 Content-Type: application/json
 
 {
-    "name": "Inconnu",
-    "email": "inconnu@example.com",
-    "active": true
+    "status": "DELIVERED"
 }
 ```
 
-### Supprimer un utilisateur (doit renvoyer 204)
+### 8. Mettre à jour une commande inexistante (404)
 
 ```
-DELETE http://localhost:8080/api/users/2
+PUT http://localhost:8080/api/orders/999
+Content-Type: application/json
+
+{
+    "status": "SHIPPED"
+}
 ```
 
-### Vérifier la suppression
+### 9. Rechercher par statut
 
 ```
-GET http://localhost:8080/api/users
+GET http://localhost:8080/api/orders/search?status=PENDING
 ```
 
+### 10. Pagination
+
+```
+GET http://localhost:8080/api/orders/paged?page=0&size=5
+```
+
+### 11. Supprimer une commande (204)
+
+```
+DELETE http://localhost:8080/api/orders/2
+```
+
+### 12. Vérifier la suppression
+
+```
+GET http://localhost:8080/api/orders
+```
