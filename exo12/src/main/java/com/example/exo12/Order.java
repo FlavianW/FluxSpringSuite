@@ -1,18 +1,26 @@
 package com.example.exo12;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
-@Table("orders")
+@Table("ORDERS")
 public class Order {
 
     @Id
     private Long id;
+
+    @Column("CUSTOMER_NAME")
     private String customerName;
+
+    @Column("TOTAL_AMOUNT")
     private Double totalAmount;
+
     private String status;
+
+    @Column("CREATED_AT")
     private LocalDateTime createdAt;
 
     public Order() {}

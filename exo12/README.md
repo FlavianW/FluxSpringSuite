@@ -25,7 +25,7 @@ POST http://localhost:8080/api/orders
 Content-Type: application/json
 
 {
-    "customerName": "Alice Dupont",
+    "customerName": "Jean Pierre",
     "totalAmount": 99.99
 }
 ```
@@ -37,7 +37,7 @@ POST http://localhost:8080/api/orders
 Content-Type: application/json
 
 {
-    "customerName": "Bob Martin",
+    "customerName": "Bob Kevin",
     "totalAmount": 149.50
 }
 ```
